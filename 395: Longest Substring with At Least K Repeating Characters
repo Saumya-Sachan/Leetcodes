@@ -1,0 +1,34 @@
+class Solution {
+    public int longestSubstring(String s, int k) {
+        int maxLength=0;
+        for (int uniqueChars = 1; uniqueChars <= 26; uniqueChars++) {
+            Map<Character, Integer> charCount = new HashMap<>();
+            int left=0,right=0;
+            int validCount=0;
+            while (right<s.length()) {
+                char rightChar=s.charAt(right);
+                charCount.put(rightChar,charCount.getOrDefault(rightChar,0)+1);
+                if (charCount.get(rightChar)==k) {
+                    validCount++;
+                }
+                while (charCount.size()>uniqueChars) {
+                    char leftChar = s.charAt(left);
+                    if (charCount.get(leftChar)==k) {
+                        validCount--;
+                    }
+                    charCount.put(leftChar,charCount.get(leftChar) -1);
+                    if (charCount.get(leftChar)==0) {
+                        charCount.remove(leftChar);
+                    }
+                    left++;
+                }
+
+                if (charCount.size()==uniqueChars&&validCount== charCount.size()) {
+                    maxLength=Math.max(maxLength,right-left+1);
+                }
+                right++;
+            }
+        }
+        return maxLength;
+    }
+}
