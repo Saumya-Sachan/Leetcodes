@@ -1,0 +1,30 @@
+class Solution {
+    boolean isPossible(int maxballs, int[] num,int maxop){
+        int total=0;
+        for(int n:num){
+            int op=(int)Math.ceil((double)n/ maxballs)-1;
+            total+=op;
+            if(total>maxop){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int minimumSize(int[] nums, int maxOperations) {
+        int left=1,max=0;
+        for(int num:nums)
+        max=Math.max(max,num);
+        int ans=max;
+        while(left<=max){
+            int m=(left+max)/2;
+            if(isPossible(m,nums,maxOperations)){
+                ans=m;
+                max=m-1;
+            }
+            else{
+                left=m+1;
+            }
+        }
+        return ans;
+    }
+}
