@@ -1,0 +1,25 @@
+class Solution {
+    public String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        String previousTerm = countAndSay(n - 1);
+        String result = "";
+        int count = 1;
+        char currentChar = previousTerm.charAt(0);
+        for (int i = 1; i < previousTerm.length(); i++) {
+            if (previousTerm.charAt(i) == currentChar) {
+                count++;
+            } 
+            else {
+                result += count;
+                result += currentChar;
+                currentChar = previousTerm.charAt(i);
+                count = 1;
+            }
+        }
+        result += count;
+        result += currentChar;
+        return result;
+    }
+}
