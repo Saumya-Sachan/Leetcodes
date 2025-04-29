@@ -1,0 +1,47 @@
+class Solution {
+    public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
+        long n = s.length();
+        long sNum = Long.valueOf(s);
+        if(sNum>finish)
+            return 0;
+        long startEnd = start % (long)Math.pow(10,n);
+        long finishEnd = finish %  (long)Math.pow(10,n);
+
+        long startStart = start / (long)Math.pow(10,n);
+        long finishStart = finish / (long)Math.pow(10,n);
+
+        if(startEnd > sNum)
+            startStart++;
+
+        if(finishEnd < sNum)
+            finishStart--;
+        
+        long A = count(0,String.valueOf(finishStart),limit,true);
+        long B = count(0,String.valueOf(startStart-1),limit,true);
+        
+        return A-B;
+    }
+
+    public long count(int i,String max,int limit,boolean isTight){
+        
+        if(max.equals("-1"))
+            return 0;
+        
+        if(i>=max.length())
+            return 1;
+
+        if(isTight){
+            int digitAtI = Integer.parseInt(max.charAt(i)+"");
+            int range = Math.min(limit,digitAtI); 
+            if(range == digitAtI)
+                return count(i+1,max,limit,true) + (range)*count(i+1,max,limit,false);
+            else
+                 return (range+1)*count(i+1,max,limit,false);
+        }else{
+            int range = limit;
+            return (range+1)*count(i+1,max,limit,false);
+        }
+    }
+
+    
+}
