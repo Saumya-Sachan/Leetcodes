@@ -1,0 +1,21 @@
+class Solution {
+    public long countGood(int[] nums, int k){
+        int val=0,r=-1;
+        int n=nums.length;
+        HashMap<Integer,Integer> mp=new HashMap<>();
+        long ans=0;
+        for (int l=0;l<n;l++) {
+            while(val<k&&r+1<n) {
+                ++r;
+                val+=mp.getOrDefault(nums[r],0);
+                mp.put(nums[r],mp.getOrDefault(nums[r],0)+1);
+            }
+            if(val>=k){
+                ans+=(n-r);
+            }
+            mp.put(nums[l],mp.get(nums[l])-1);
+            val-=mp.get(nums[l]);
+        }
+        return ans;
+    }
+}
