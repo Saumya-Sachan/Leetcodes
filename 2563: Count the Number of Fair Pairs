@@ -1,0 +1,38 @@
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        long c=0;
+        for(int i=0;i<nums.length;i++) {
+            int start=leftSearch(nums,lower-nums[i],i+1);
+            int end=rightSearch(nums,upper-nums[i],i+1,true);
+            c+=end-start+1;
+        }
+        return c;
+    }
+    private int leftSearch(int[] nums, int target, int start) {
+        int left=start,right=nums.length-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]>=target){
+                right=mid-1;
+            } 
+            else{
+                left=mid+1;
+            }
+        }
+        return left;
+    }
+    private int rightSearch(int[] nums, int target, int start, boolean upper) {
+         int left=start,right=nums.length-1;
+        while (left<=right){
+            int mid=left+(right-left)/2;
+            if (upper?nums[mid]>target:nums[mid]>=target){
+                right=mid-1;
+            }
+            else {
+                left=mid+1;
+            }
+        }
+        return right;
+    }
+}
