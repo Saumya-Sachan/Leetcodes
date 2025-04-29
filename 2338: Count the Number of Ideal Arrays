@@ -1,0 +1,34 @@
+class Solution {
+    long[][] dp=new long[15][10001];
+    long[][] arr=new long[15][10001];
+    long[] total=new long[15];
+    final long mod=1000000007;
+    int n,max;
+    void get(int a, int c) {
+        total[c]++;
+        for (int p=2*a;p<=max;p+=a)
+            get(p,c+1);
+    }
+    public int idealArrays(int n, int max) {
+        this.n=n;
+        this.max=max;
+        for (int i=1;i<=10000;i++) {
+            dp[1][i]=1;
+            arr[1][i]=i;
+        }
+        for (int i=2;i<15;i++) {
+            for (int j=i;j<=10000;j++) {
+                dp[i][j]=arr[i-1][j-1];
+                arr[i][j]=(dp[i][j]+arr[i][j-1])%mod;
+            }
+        }
+        for (int i=1;i<=max;i++)
+            get(i,1);
+        long ans=max;
+        for (int i=2;i<15;i++) {
+            ans=(ans+total[i]*dp[i][n])%mod;
+        }
+
+        return (int)ans;
+    }
+}
