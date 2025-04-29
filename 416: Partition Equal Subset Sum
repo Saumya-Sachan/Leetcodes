@@ -1,0 +1,18 @@
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum=0;
+        for(int x:nums) //x means the number from nums
+        sum+=x;
+
+        if(sum%2!=0)return false;
+        int halfSum=sum/2;
+        boolean[] possSubset=new boolean[halfSum+1];//possSubset is a boolean array to check if the required sum can be generated using different subsets in nums or not
+        possSubset[0]=true;
+        for(int x: nums){
+            for(int i=halfSum;i>=x;i--){
+                possSubset[i]=possSubset[i] || possSubset[i-x];
+            }
+        }
+        return possSubset[halfSum];
+    }
+}
