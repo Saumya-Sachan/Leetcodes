@@ -1,0 +1,35 @@
+class Solution {
+    public long countGoodIntegers(int n, int k) {
+        Set<String> set=new HashSet<>();
+        int bs=(int)Math.pow(10,(n-1)/2);
+        int step=n&1;
+        for(int i=bs;i<bs*10;i++){
+            String s=Integer.toString(i);
+            s+=new StringBuilder(s).reverse().substring(step);
+            long pldInteger=Long.parseLong(s);
+            if(pldInteger%k==0){
+                char[] ch=s.toCharArray();
+                Arrays.sort(ch);
+                set.add(new String(ch));
+            }
+        }
+        long[] fact=new long[n+1];
+        fact[0]=1;
+        for(int i=1;i<=n;i++){
+            fact[i]=fact[i-1]*i;
+        }
+        long ans=0;
+        for(String s:set){
+            int[] c=new int[10];
+            for(char chr:s.toCharArray()){
+                c[chr-'0']++;
+            }
+            long total=(n-c[0])*fact[n-1];
+            for(int i: c){
+                total/=fact[i];
+            }
+            ans+=total;
+        }
+        return ans;
+    }
+}
