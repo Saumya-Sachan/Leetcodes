@@ -1,0 +1,18 @@
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null) return null;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        ListNode temp = head;
+        while (temp != null) {
+            minHeap.add(temp.val);
+            temp = temp.next;
+        }
+        ListNode dum=new ListNode(-1);
+        ListNode cur=dum;
+        while (!minHeap.isEmpty()) {
+            cur.next = new ListNode(minHeap.poll()); 
+            cur=cur.next;
+        }
+        return dum.next;
+    }
+}
