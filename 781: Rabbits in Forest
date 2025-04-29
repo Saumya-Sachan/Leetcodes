@@ -1,0 +1,17 @@
+class Solution {
+    public int numRabbits(int[] answers) {
+        Map<Integer,Integer> mp=new HashMap<>();
+        for (int answer:answers) {
+            mp.put(answer,mp.getOrDefault(answer,0)+1);
+        }
+        int totalRabbits=0;
+        for (Map.Entry<Integer,Integer> entry: mp.entrySet()){
+            int k=entry.getKey(); 
+            int frequency=entry.getValue();
+            int groupSize=k+1;
+            int groups=(int)Math.ceil((double)frequency/ groupSize); 
+            totalRabbits+=groups*groupSize; 
+        }
+        return totalRabbits;
+    }
+}
