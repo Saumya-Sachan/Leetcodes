@@ -1,0 +1,32 @@
+class BIT:
+    def __init__(self,size):
+        self.tree=[0]*(size+1)
+    def update(self,index,delta):
+        index+=1
+        while index<len(self.tree):
+            self.tree[index]+=delta
+            index+=index&(-index)
+    def query(self,index):
+        index+=1
+        curr_sum=0
+        while index>0:
+            curr_sum+=self.tree[index]
+            index-=index&(-index)
+        return curr_sum
+class Solution:
+    def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
+        n=len(nums1)
+        pos2={val:i for i,val in enumerate(nums2)}
+        bit=BIT(n)
+        good_triplets=0
+        for j in range(n):
+            y=nums1[j]
+            target_pos2=pos2[y]
+            left_count=bit.query(target_pos2-1)
+            before_greater=j-left_count
+            possible_greater=n-1-target_pos2
+            right_count=possible_greater-before_greater
+            good_triplets+=left_count*right_count
+            bit.update(target_pos2,1)
+        return good_triplets
+        
