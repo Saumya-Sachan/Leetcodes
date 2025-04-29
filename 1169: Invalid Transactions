@@ -1,0 +1,32 @@
+class Solution {
+     public boolean invalid(String[] t1, String[] t2) {
+        int time1=Integer.parseInt(t1[1]);
+        int time2=Integer.parseInt(t2[1]);
+        if (!t1[3].equals(t2[3])&&Math.abs(time1-time2)<=60) return true;
+        return false;
+    }
+    public List<String> invalidTransactions(String[] transactions) {
+        int n=transactions.length;
+        List<String> ans=new ArrayList<>();
+        for (int i=0;i<n;i++) {
+            String[] t1=transactions[i].split(",");
+            boolean isInvalid=false;
+            if (Integer.parseInt(t1[2])>1000) {
+                isInvalid=true;
+            }
+            for (int j=0;j<n;j++) {
+                if (i!=j){
+                    String[] t2=transactions[j].split(",");
+                    if(t1[0].equals(t2[0])&&invalid(t1,t2)){
+                        isInvalid=true;
+                        break;
+                    }
+                }
+            }
+            if (isInvalid) {
+                ans.add(transactions[i]);
+            }
+        }
+        return ans;
+    }
+}
