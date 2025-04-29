@@ -1,0 +1,17 @@
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int l=0;l<n/2;l++) {
+            int first=l;
+            int last=n-1-l;
+            for (int i= first;i<last;i++) {
+                int temp=i-first;
+                int top = matrix[first][i];
+                matrix[first][i]=matrix[last-temp][first];// Move left to top
+                matrix[last-temp][first]=matrix[last][last-temp];// Move bottom to left
+                matrix[last][last-temp] = matrix[i][last];// Move right to bottom
+                matrix[i][last] = top;// Move top to right
+            }
+        }
+    }
+}
